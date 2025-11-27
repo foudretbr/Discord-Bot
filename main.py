@@ -1,37 +1,31 @@
 import discord
+from discord.ext import commands
 
-class  MyClient(discord.client):
-    async def on_ready(self):
-        print(f'Logged on as {self.user} !')
+intents = discord.Intents.default()
+intents.message_content = True
+intents.members = True
     
-    async def on_messsage(self, message):
-        print(f'Message from {message.author} : {message.content}')
+class MyBot(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix='$', intents=intents)
 
-intents = discord.Intents.default()
-intents.message_content = True
+    async def on_ready(self):
+        print(f"Bot is ready! Connected to : {self.user}")
+        #ajouter des cogs
+        pass
 
-client = MyClient(intents=intents)
-client.run('N1AWNcGY-RwSVvJQH8YR-hDM0DRdPiOU')
+    async def on_member_join(self, member):
+        guild = member.guild
+        role = discord.utils.get(guild.roles, name="zgeg")
+        if role:
+            await member.add_roles(role)
+            print(f"Rôle '{role.name}' attribué à {member.name}")
 
+@commands.command()
+async def test(ctx, arg):
+    await ctx.channel.send(arg)
 
-import discord
-import discord
+bot = MyBot()
+bot.add_command(test)
 
-intents = discord.Intents.default()
-intents.message_content = True
-
-client = discord.Client(intents=intents)
-
-@client.event
-async def on_ready():
-    print(f'We have logged in as {client.user}')
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
-        
-client.run('N1AWNcGY-RwSVvJQH8YR-hDM0DRdPiOU')
+bot.run('MTM4NTMwNDQyODAzODMyODMyMA.GP31em.GkfgNN_bxsl4KPyuJRwpk9rVLCyIeQJXr6zFpo')
