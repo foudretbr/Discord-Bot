@@ -1,4 +1,5 @@
 import discord
+from discord import app_commands
 from discord.ext import commands
 from discord.ext import context
 
@@ -9,7 +10,8 @@ class Moderation(commands.Cog, name="moderation"):
 
     @commands.hybrid_command(name="kick", description="Kick an user out of the serve.")
     @commands.has_permissions(kick_members=True)
-    async def kick(self, context: context, user: discord.User, *, reason: str = "Not specified") -> None :
+    @app_commands.describe(user="The user to kick", reason="The reason why the user should be kick")
+    async def kick(self, context: context, user: discord.User, *, reason: str = "Not specified"):
         """Kick an user from the server """
         member = context.guild.get_member(user.id) or await context.guild.fetch_member(user.id)
         if member.guild_permissions.administrator:
@@ -30,6 +32,6 @@ class Moderation(commands.Cog, name="moderation"):
                 embed = discord.Embed(description="An error occurred while trying to kick the user. Make sure my role is above the role of the user you want to kick.", color=0xE02B2B)
                 await context.send(embed=embed)
 
-async def setup(bot) -> None:
+async def setup(bot):
     await bot.add_cog(Moderation(bot))
 
