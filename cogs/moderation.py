@@ -80,7 +80,8 @@ class Moderation(commands.Cog, name="moderation"):
         :param context: The hybrid command context.
         :param amount: The number of messages that should be deleted.
         """
-        await context.send(f"Deleting {amount} messages...")
+        embed = discord.Embed(description=f"Deletig {amount} messages...", color = 0xBEBEFE)
+        await context.send(embed=embed)
         await context.channel.purge(limit=amount+2) # +2 to include the command message and the "Deleting amount message..." message
         embed = discord.Embed(description=f"✅ | Cleared {amount} messages !", color=0xBEBEFE)
         await context.channel.send(embed=embed, delete_after=5)

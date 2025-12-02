@@ -31,14 +31,16 @@ class PexelsAPI(commands.Cog, name="troll"):
         :type amount: int
         """
         if amount > 4:
-            await context.send(f"The maximal amount of images per request is 4 !")
+            embed = discord.Embed(description="The maximal amount of images per requests is 4 !", color = 0xE02B2B)
+            await context.send(embed=embed)
             return
 
         for i in range(amount):
             api.search(keyword, page=1, results_per_page=100)
             photos = api.get_entries()
             if not photos:
-                await context.send(f"No images found for {keyword}")
+                embed = discord.Embed(description="No images found for {keyword} !", color = 0xE02B2B)
+                await context.send(embed = embed)
                 return
             else:
                 photo = random.choice(photos)
@@ -58,20 +60,32 @@ class PexelsAPI(commands.Cog, name="troll"):
         :type amount: int
         """
         if amount > 4:
-            await context.send('Amount max is 4')
+            embed = discord.Embed(description="Amount max is 4 !", color = 0xE02B2B)
+            await context.send(embed = embed)
             return
         
         for i in range(amount):
             api.search("nigger", page=1, results_per_page=100)
             photos = api.get_entries()
             if not photos:
-                await context.send(f"No images found")
+                embed = discord.Embed(description="No images found !", color = 0xE02B2B)
+                await context.send(embed = embed)
                 return
             else:
                 photo = random.choice(photos)
                 image_url = photo.original
-                await context.send(image_url)        
+                await context.send(image_url)
 
+    @commands.hybrid_command(name="ludo", description="A command who send a ludo emoji")
+    @commands.bot_has_permissions(send_messages=True)
+    @app_commands.describe(amount = "The amount of emoji to send.")
+    async def ludo(self, context : Context, amount : int):
+        """
+        A command to send Ludo emojis
+        """
+        emoji = discord.utils.get(context.guild.emojis, name="ludo_prime")
+        for i in range(amount):
+            await context.send(str(emoji))
 
 
 async def setup(bot):
