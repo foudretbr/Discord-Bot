@@ -84,6 +84,7 @@ class MyBot(commands.Bot):
     async def setup_hook(self):
         self.logger.info(f'Logged in as {self.user} (ID: {self.user.id})')
         await self.load_cogs()
+        await self.tree.sync()
 
     async def on_ready(self):
         self.logger.info(f'{self.user} (ID: {self.user.id} ) is ready.')
