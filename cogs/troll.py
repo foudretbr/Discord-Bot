@@ -36,7 +36,12 @@ class PexelsAPI(commands.Cog, name="troll"):
             return
 
         for i in range(amount):
-            api.search(keyword, page=1, results_per_page=100)
+            try:
+                api.search(keyword, page=1, results_per_page=100)
+            except:
+                embed = discord.Embed(description="API Errors, retry after fews secondes.", color=0xE02B2B)
+                await context.send(embed=embed)
+                return
             photos = api.get_entries()
             if not photos:
                 embed = discord.Embed(description="No images found for {keyword} !", color = 0xE02B2B)
