@@ -1,7 +1,11 @@
-python-dotenv
-requests
-discord.py
-discord.ext
-os
-logging
-pexels_api
+python-dotenv==1.0.0
+requests==2.31.0
+discord.py==2.3.2
+aiohttp==3.8.4
+pexels_api==1.4.3
+
+# Notes:
+# - Removed standard-library entries (os, logging) and incorrect package 'discord.ext'.
+# - Versions are pinned to known-stable releases as a starting point. If you prefer
+#   different versions (or a different Discord library such as py-cord), tell me
+#   and I can update these pins.
